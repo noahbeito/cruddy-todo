@@ -24,20 +24,22 @@ exports.create = (text, callback) => {
       })
     }
   });
-
-
-
-  // var id = counter.getNextUniqueId();
-  // items[id] = text;
-  // callback(null, { id, text });
 };
 
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
-  });
-  callback(null, data);
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      throw err;
+    } else {
+      let data = _.map(files, (file) => ( { id: file.slice(0, 5), text: file.slice(0, 5) } ))
+      callback(null, data);
+    }
+  })
 };
+// var data = _.map(items, (text, id) => {
+//   return { id, text };
+// });
+// callback(null, data);
 
 exports.readOne = (id, callback) => {
   var text = items[id];
